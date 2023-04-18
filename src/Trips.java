@@ -25,30 +25,31 @@ public class Trips {
 
     System.out.println("Введите название поездки: ");
     String nameOfTrip = br.readLine();
-//        - Appart (жильё)
-//        - Transfer (расчёт проезда)
-//        - LocalTransport (местный транспорт, не обязательный, будем спрашивать )
-//        - Food(затраты на еду)
-//        - Excursion (затраты на экскурсию)
-//        - entertainment(развлечения, не обязательный, будем спрашивать )
     List<Expense> tripList = new ArrayList<>();
+
+    //Appart (жильё)
     Expense appart = new Expense("Жильё", readAppartCost(), CURRENCY);
     tripList.add(appart);
+
+    // Transfer (расчёт проезда)
     Expense Transfer = new Expense("Трансфер", readTransfertCost(), CURRENCY);
     tripList.add(Transfer);
 
+    // LocalTransport (местный транспорт)
+    System.out.println("Планируете ли Вы пользоваться местным транспортом?");
     String answer = readAnswer(br);
     if(answer.equalsIgnoreCase("y")){
       Expense LocalTransport = new Expense("Проезд на местном транспорте",
           readLocalTransportCost(), CURRENCY);
       tripList.add(LocalTransport);
     }
+
+    // Food(затраты на еду)
 //    Expense Transfer = new Expense("Трансфер", readTransfertCost(), CURRENCY);
 //    tripList.add(Transfer);
 
-
-
-//    Expense
+    // Excursion (затраты на экскурсию)
+    // entertainment(развлечения, не обязательный, будем спрашивать )
 
     Map<String, List> trip = new HashMap<>();
     trip.put(nameOfTrip, tripList);
@@ -75,11 +76,7 @@ public class Trips {
   }
 
   private String readAnswer(BufferedReader br) throws IOException{
-    System.out.println("""
-          Планируете ли Вы пользоваться местным транспортом?
-           [y] - да
-           [n] - нет
-     """);
+    System.out.println("[y] - да\n[n] - нет");
     String answer = "";
     try {
       answer = br.readLine();
@@ -88,6 +85,14 @@ public class Trips {
       readAnswer(br);
     }
     return answer;
+  }
+
+  public static void editTrip(){
+    // TODO
+    //  1. Какую трип хотим отредактировать
+    //  2. Какую строчку из списка (листа)
+    //  3. изменить / удалить (изменить можем только деньги)
+    //  4. через свитч-кейс вызывает соответсвующую статье расходов функцию
   }
 
 
