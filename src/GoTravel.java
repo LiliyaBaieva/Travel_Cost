@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GoTravel {
-  public static void goTravel() throws IOException {
+  public static void runMenu() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    int choice = menu();
 
+    for(int i = 0; i < menu().size(); ++i){
+      System.out.println("[" + (i + 1) + "]" + menu().get(i));
+    }
+    int choice = readChoice();
     switch (choice) {
       case 1 -> createTrip();
       case 2 -> lookTrip();
@@ -18,9 +21,12 @@ public class GoTravel {
       case 6 -> aboutApp();
       case 7 -> bye();
     }
+
+
+
   }
 
-  private static int menu() throws IOException {
+  private static List<String> menu() {
     List<String> menu = new ArrayList<>();
     menu.add("Добавить поездку"); //1
     menu.add("Посмотреть поездки");  //2
@@ -29,15 +35,9 @@ public class GoTravel {
     menu.add("Сравнить поездки");
     menu.add("О програме");
     menu.add("Выйти из программы"); //7
-
-    for(int i = 0; i < menu.size(); ++i){
-      System.out.println("[" + (i + 1) + "]" + menu.get(i));
-    }
-
-    int choice = readChoice();
-
-  return choice;
+    return menu;
   }
+
 
   private static int readChoice() throws IOException{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -63,10 +63,10 @@ public class GoTravel {
         Эта программа была создана человеком, который обожает путишествовать.
         Cозданна для быстрого расчёта поездки и для оптимизации Ваших расходов.
         
-        Это приложение поможет Ваам сделать оптимальный выбор
+        Это приложение поможет Вам сделать оптимальный выбор
                   между несколькими вариантами.
         """);
-    menu();
+    runMenu();
   }
   private static void bye(){
     System.out.println("""
