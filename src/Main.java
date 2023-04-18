@@ -7,6 +7,6 @@ public class Main {
     System.out.println(">> TRAVEL COST <<");
     System.out.println("=================");
     System.out.println();
-    GoTravel.goTravel();
+    GoTravel.runMenu();
   }
 }
