@@ -5,8 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GoTravel {
-  public static void goTravel(){
-    //TODO здесь будет меню  и основнная программа
+  public static void goTravel() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    int choice = menu();
+
+    switch (choice) {
+      case 1 -> createTrip();
+      case 2 -> lookTrip();
+      case 3 -> editTrip();
+      case 4 -> deleteTrip();
+      case 5 -> compareTrip();
+      case 6 -> aboutApp();
+      case 7 -> bye();
+    }
   }
 
   private static int menu() throws IOException {
