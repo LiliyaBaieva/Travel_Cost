@@ -8,6 +8,9 @@ import java.util.Map;
 
 public class Trips {
   public final String CURRENCY = readCurrency();
+//  public Carrency(){
+//    String CURRENCY = readCurrency();
+//  }
   private enum currencyList{
     USD,
     EUR,
@@ -25,14 +28,28 @@ public class Trips {
 
     System.out.println("Введите название поездки: ");
     String nameOfTrip = br.readLine();
+
+    System.out.println("Сколько дней Вы планируете отдыхать: ");
+    int days;
+    do{
+    days = Integer.parseInt(br.readLine());
+    } while (days <= 0);
+
+
+    System.out.println("Сколько Вас будет человек: ");
+    int numberPeople;
+    do{
+      numberPeople = Integer.parseInt(br.readLine());
+    }while(numberPeople <= 0);
+
     List<Expense> tripList = new ArrayList<>();
 
     //Appart (жильё)
-    Expense appart = new Expense("Жильё", readAppartCost(), CURRENCY);
+    Expense appart = new Expense("Жильё", appartCost(), CURRENCY);
     tripList.add(appart);
 
     // Transfer (расчёт проезда)
-    Expense Transfer = new Expense("Трансфер", readTransfertCost(), CURRENCY);
+    Expense Transfer = new Expense("Трансфер", transferCost(), CURRENCY);
     tripList.add(Transfer);
 
     // LocalTransport (местный транспорт)
@@ -40,13 +57,13 @@ public class Trips {
     String answer = readAnswer(br);
     if(answer.equalsIgnoreCase("y")){
       Expense LocalTransport = new Expense("Проезд на местном транспорте",
-          readLocalTransportCost(), CURRENCY);
+          localTransportCost(), CURRENCY);
       tripList.add(LocalTransport);
     }
 
     // Food(затраты на еду)
-//    Expense Transfer = new Expense("Трансфер", readTransfertCost(), CURRENCY);
-//    tripList.add(Transfer);
+    Expense food  = new Expense("Питание", foodCost(), CURRENCY);
+    tripList.add(food);
 
     // Excursion (затраты на экскурсию)
     // entertainment(развлечения, не обязательный, будем спрашивать )
@@ -61,17 +78,18 @@ public class Trips {
     //TODO печать, считывание, выбор валюты
     return curr;
   }
-  private double readAppartCost(){
+  private double appartCost(){
+
     // TODO расчитать стоимость жилья на 1 человоека
     return 0.00;
   }
-  private double readTransfertCost(){
-    // TODO расчитать стоимость жилья на 1 человоека с учётом автобана
+  private double transferCost(){
+    // TODO расчитать стоимость проезда 1 человоека с учётом автобана
     return 0.00;
   }
 
-  private double readLocalTransportCost(){
-    // TODO расчитать стоимость жилья на 1 человоека с учётом автобана
+  private double localTransportCost(){
+    // TODO расчитать стоимость местного транспорта
     return 0.00;
   }
 
