@@ -35,7 +35,7 @@ public class Expense {
     String name = br.readLine();
     System.out.println("Введите сумму расход: ");
     double cost = Double.parseDouble(br.readLine());
-    String currency  = Trips.readCurrency();                // использование ввода валюты
+    String currency  = br.readLine();                // использование ввода валюты
     return new Expense(name, cost, currency);
   }
 
