@@ -35,13 +35,15 @@ public class GoTravel {
     }
 
     int choice = readChoice();
-    
+
   return choice;
   }
-  
+
   private static int readChoice() throws IOException{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//                      [3]Внести изминения в поездку
+
+    //  Считываем выбор меню от пользователя
+
     System.out.println("-----------------------------");
     System.out.print("    Сделайте Ваш выбор: ");
     int readedChoice = 0;
