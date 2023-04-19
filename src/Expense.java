@@ -6,6 +6,8 @@ public class Expense {
   private String name;
   private double cost;
   private String currency;
+  public final static char SEP = ';';
+
   public Expense(String name, double cost, String currency){
     this.name = name;
     this.cost = cost;
@@ -39,6 +41,8 @@ public class Expense {
     return new Expense(name, cost, currency);
   }
 
-
-
+  @Override
+  public String toString() {
+    return getName() + SEP + getCost() + SEP + getCurrency();
+  }
 }
