@@ -13,11 +13,11 @@ public class GoTravel {
     }
     int choice = readChoice();
     switch (choice) {
-      case 1 -> Trips.addTrip();
-      case 2 -> lookTrip();
-      case 3 -> editTrip();
-      case 4 -> deleteTrip();
-      case 5 -> compareTrip();
+      case 1 -> TripCreator.addTrip();
+      case 2 -> Trips.lookTrip();
+      case 3 -> Trips.editTrip();
+      case 4 -> Trips.deleteTrip();
+      case 5 -> Trips.compareTrip();
       case 6 -> aboutApp();
       case 7 -> bye();
     }
@@ -73,35 +73,6 @@ public class GoTravel {
              Желаем хорошего путишествия!
                       Досвидания!
           """);
-  }
-
-  //TODO  1
-  // подменю чтоб посмотреть поездки
-  private static void lookTrip(){
-
-    //     - Вывести все поездки {номер, название стоимость общая, и за одного человека}
-    //    - Посмотреть одну поездку:
-    //        Вывести список поездок на экран
-    //    и выбрать, которая интересует
-    //    - в главное меню
-  }
-
-  //TODO удаление записи
-  private static void deleteTrip(){
-  }
-
-  // TODO редактирование поездки
-  private static void editTrip(){
-    // через класс "expense"
-  }
-
-
-  //TODO здесь будем сравнивать поездки
-  private static void compareTrip(){
-    // 1. выводить на экран printAllTrip()
-    // 2. спрашивать какие поездки мы хотим сравнить и по какому показателю или всю
-    //     список статей расходов с номерами
-    // printComparableTrip(trip1, trip2, parameter)
   }
 
 
