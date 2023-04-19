@@ -13,7 +13,7 @@ public class GoTravel {
     }
     int choice = readChoice();
     switch (choice) {
-      case 1 -> Trips.createTrip();
+      case 1 -> Trips.addTrip();
       case 2 -> lookTrip();
       case 3 -> editTrip();
       case 4 -> deleteTrip();

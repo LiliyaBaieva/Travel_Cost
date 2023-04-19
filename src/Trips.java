@@ -1,4 +1,6 @@
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -8,44 +10,55 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Trips {
+  public final static char SEP = '/';
   public static String currency;
   public static int days;
   public static int numberPeople;
 
-  // TODO Созданеи поездок (из статей расходов Expense)
-  public static Map<String, List> createTrip() throws IOException {
+  public static void addTrip () throws IOException{
+    File trips = new File("res/trips.txt");
+    FileWriter fileWriter = new FileWriter("res/trips.txt");
+    if(!trips.exists()){
+      trips.createNewFile();
+    }
+
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-//    - Trips (Созданеи поездок из названия и списка статей расходов Expense)
-
     System.out.println("Введите название поездки: ");
     String nameOfTrip = br.readLine();
-
     System.out.println("Сколько дней Вы планируете отдыхать: ");
     do{
-    days = Integer.parseInt(br.readLine());
+      days = Integer.parseInt(br.readLine());
     } while (days <= 0);
-
-
     System.out.println("Сколько Вас будет человек: ");
     do{
       numberPeople = Integer.parseInt(br.readLine());
     }while(numberPeople <= 0);
-
     System.out.print("Введите валюту, в которой будет производится расчёт: ");
     currency = br.readLine().toLowerCase();
 
+    List<Expense> trip = createTrip();
+
+    String allExpenses = "";
+    for (Expense expense : trip) {
+      allExpenses = allExpenses + SEP + expense.toString();
+    }
+
+    String total = String.format(nameOfTrip + SEP + allExpenses);
+
+    fileWriter.write(String.valueOf(total));
+    fileWriter.close();
+  }
+
+  public static List<Expense> createTrip() throws IOException {
     List<Expense> tripList = new ArrayList<>();
 
-    //Appart (жильё)
     Expense appart = new Expense("Жильё", appartCost(), currency);
+//    appart.toString();
     tripList.add(appart);
 
-    // Transfer (расчёт проезда)
     Expense Transfer = new Expense("Трансфер", transferCost(), currency);
     tripList.add(Transfer);
 
-    // LocalTransport (местный транспорт)
     System.out.println("Планируете ли Вы пользоваться местным транспортом?");
     boolean answer = readAnswer();
     if(answer){
@@ -54,25 +67,20 @@ public class Trips {
       tripList.add(LocalTransport);
     }
 
-    // Food(затраты на еду)
     Expense food  = new Expense("Питание", foodCost(), currency);
     tripList.add(food);
 
-    // Excursion (затраты на экскурсию)
     Expense excursion  = new Expense("Экскурсии", excursionCost(), currency);
     tripList.add(excursion);
 
-
-    // entertainment(развлечения, не обязательный, будем спрашивать )
     System.out.println("Планируете ли дополнительные затраты на развлечения?");
     boolean answer2 = readAnswer();
     if(answer2){
       Expense entertainment  = new Expense("Развлечения", entertainmentCost(), currency);
+      tripList.add(entertainment);
     }
 
-    Map<String, List> trip = new HashMap<>();
-    trip.put(nameOfTrip, tripList);
-    return trip;
+    return tripList;
   }
 
 //  public static String readCurrency(){
@@ -91,7 +99,7 @@ public class Trips {
       cost = oneDay * days;
     } else{
       System.out.print("Введите стоимость жилья в сутки: ");
-      cost = Double.parseDouble(br.readLine()) * days;
+      cost = Double.parseDouble(br.readLine()) / numberPeople * days;
     }
     return cost;
   }
@@ -113,27 +121,30 @@ public class Trips {
     return cost;
   }
 
+  // TODO расчитать стоимость местного транспорта
   private static double localTransportCost(){
-    // TODO расчитать стоимость местного транспорта
+
     return 0.00;
   }
+
+  // TODO расчитать стоимость питания на 1 человоека
   private static double foodCost(){
-    // TODO расчитать стоимость жилья на 1 человоека
     return 0.00;
   }
+
+  // TODO расчитать стоимость экскурсии на 1 человоека
   private static double excursionCost(){
-    // TODO расчитать стоимость питания на 1 человоека
     return 0.00;
   }
+
+  // TODO расчитать стоимость развлечения на 1 человоека
   private static double entertainmentCost(){
-    // TODO расчитать стоимость развлечения на 1 человоека
     return 0.00;
   }
 
   private  static boolean readAnswer() throws IOException{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     System.out.println("[y] - да\n[n] - нет");
-//    boolean answer;
     String answerLine = br.readLine();
     if(answerLine.equalsIgnoreCase("n")){
       return false;
@@ -145,9 +156,8 @@ public class Trips {
   }
 
 
-
+  // TODO
   public static void editTrip(){
-    // TODO
     //  1. Какую трип хотим отредактировать
     //  2. Какую строчку из списка (листа)
     //  3. изменить / удалить (изменить можем только деньги)
