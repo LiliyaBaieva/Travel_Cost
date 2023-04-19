@@ -75,7 +75,8 @@ public class GoTravel {
           """);
   }
 
-  //TODO подменю чтоб посмотреть поездки
+  //TODO  1
+  // подменю чтоб посмотреть поездки
   private static void lookTrip(){
 
     //     - Вывести все поездки {номер, название стоимость общая, и за одного человека}
@@ -85,19 +86,21 @@ public class GoTravel {
     //    - в главное меню
   }
 
+  //TODO удаление записи
+  private static void deleteTrip(){
+  }
+
   // TODO редактирование поездки
   private static void editTrip(){
     // через класс "expense"
   }
 
-  //TODO удаление записи
-  private static void deleteTrip(){
-  }
 
   //TODO здесь будем сравнивать поездки
   private static void compareTrip(){
     // 1. выводить на экран printAllTrip()
     // 2. спрашивать какие поездки мы хотим сравнить и по какому показателю или всю
+    //     список статей расходов с номерами
     // printComparableTrip(trip1, trip2, parameter)
   }
 

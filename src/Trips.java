@@ -134,9 +134,54 @@ public class Trips {
     return cost;
   }
 
-  // TODO расчитать стоимость питания на 1 человоека
-  private static double foodCost(){
-    return 0.00;
+  private static double foodCost() throws  IOException{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String answer;
+    do{
+      System.out.println("""
+      Выберите вариант питания на отдыхе: 
+      [A] - питаться в кафе и ресторанах 
+      [Б] - готовим сами
+      [В] - смешаное питание
+      """);
+      answer  = br.readLine();
+    }while (answer.equalsIgnoreCase("A") || answer.equalsIgnoreCase("Б")
+        || answer.equalsIgnoreCase("В"));
+    double cost = 0.00;
+    foodCalculator(answer);
+    return cost;
+  }
+
+  private static double foodCalculator (String answer) throws IOException{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    double cost = 0.00;
+    try{
+      switch (answer){
+        case "A": {
+          System.out.println("Введите среднюю стоимость обеда: ");
+          cost = Double.parseDouble(br.readLine()) * 3 * days;
+        }
+        case "Б":{
+          System.out.println("Какая стоимость недельной закупки еды (на 1 чел): ");
+          // предполагаеться, что цены могут быть выше, запас денег на 10% больше
+          cost = Double.parseDouble(br.readLine()) / 7 * days;
+        }
+        case "В":{
+          System.out.println("Введите среднюю стоимость обеда: ");
+          double dinnerCost = Double.parseDouble(br.readLine());
+          System.out.println("Какая стоимость недельной закупки еды (на 1 чел): ");
+          double shopFood = Double.parseDouble(br.readLine());
+          cost = ((dinnerCost * 3) + (shopFood / 7))/2 * days;
+        }
+      }
+    } catch (NumberFormatException e){
+      System.out.println("Не правильный формат ввода.");
+      foodCalculator(answer);
+    } catch (NegativeArraySizeException e){
+      System.out.println("Сумма денег не может быть отрицательна.");
+      foodCalculator(answer);
+    }
+    return cost;
   }
 
   private static double excursionCost() throws IOException{
