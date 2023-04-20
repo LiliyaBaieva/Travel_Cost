@@ -1,6 +1,3 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 public class Expense {
 
   private String name;
@@ -30,19 +27,10 @@ public class Expense {
     this.cost = cost;
   }
 
-
-  public static Expense expenseCreator() throws IOException{
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    System.out.println("Введите название расхода: ");
-    String name = br.readLine();
-    System.out.println("Введите сумму расход: ");
-    double cost = Double.parseDouble(br.readLine());
-    String currency  = br.readLine();                // использование ввода валюты
-    return new Expense(name, cost, currency);
-  }
-
   @Override
   public String toString() {
-    return getName() + SEP + getCost() + SEP + getCurrency();
+    return getName() + " = " +  getCost() + " (" + getCurrency() + ")";
   }
+
+
 }
