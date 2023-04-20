@@ -40,7 +40,7 @@ public class TripCreator {
       allExpenses = allExpenses + SEP + expense.toString();
     }
 
-    String total = String.format(nameOfTrip + SEP + allExpenses + "\n");
+    String total = String.format(nameOfTrip + allExpenses + "\n");
 
     fileWriter.write(String.valueOf(total));
     fileWriter.close();

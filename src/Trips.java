@@ -1,4 +1,15 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Trips {
+  public final static char SEP = '/';
+
   //TODO  подменю чтоб посмотреть поездки
   public static void lookTrip(){
 
@@ -35,6 +46,44 @@ public class Trips {
   // TODO
   private static void printTrip(){}
 
+  private static List<Map> parseALLTrip() throws IOException {
+    File tripsFile = new File("res/Trips.txt");
+    if (!tripsFile.exists()) {
+      System.out.println("Файл не найден. Или Вы не создали ещё не одной поездки.");
+      GoTravel.runMenu();
+    }
 
+    BufferedReader br = new BufferedReader(new FileReader("res/Trips.txt"));
+    List<Map> allTrips = new ArrayList<>();
+    for(String line = br.readLine(); line != null; line = br.readLine()){
+      Map<String, List> trip = parseTrip(line);
+      allTrips.add(trip);
+    }
+    return allTrips;
+  }
+
+  private static Map<String, List>  parseTrip(String line){
+    Map<String, List> oneTrip = new HashMap<>();
+    List<Expense> expenses = new ArrayList<>();
+
+    int lastSep = line.indexOf(SEP);
+    String nameOfTrip = line.substring(0, lastSep);
+    line = line.substring(lastSep + 1);
+
+    for(lastSep = line.indexOf(SEP); lastSep < line.length(); ++lastSep){
+      Expense expense = parseExpenses();
+      expenses.add(expense);
+    }
+
+    oneTrip.put(nameOfTrip, expenses);
+
+    return oneTrip;
+  }
+
+  private static Expense  parseExpenses(){
+
+    return null;
+  }
 
 }
+
