@@ -46,7 +46,7 @@ public class Trips {
   // TODO
   private static void printTrip(){}
 
-  private static List<Map> parseALLTrip() throws IOException {
+  private static Map<String, List> parseALLTrip() throws IOException {
     File tripsFile = new File("res/Trips.txt");
     if (!tripsFile.exists()) {
       System.out.println("Файл не найден. Или Вы не создали ещё не одной поездки.");
@@ -54,35 +54,43 @@ public class Trips {
     }
 
     BufferedReader br = new BufferedReader(new FileReader("res/Trips.txt"));
-    List<Map> allTrips = new ArrayList<>();
+    Map<String, List> allTrips = new HashMap<>();
     for(String line = br.readLine(); line != null; line = br.readLine()){
-      Map<String, List> trip = parseTrip(line);
-      allTrips.add(trip);
+      int firstSep = line.indexOf(SEP);
+      String nameOfTrip = line.substring(0, firstSep);
+      String lineForList = line.substring(firstSep + 1);
+      List<Expense> expenses = parseTripList(lineForList);
+
+       allTrips.put(nameOfTrip, expenses);
     }
     return allTrips;
   }
 
-  private static Map<String, List>  parseTrip(String line){
-    Map<String, List> oneTrip = new HashMap<>();
+  private static List<Expense>  parseTripList(String lineForList){
     List<Expense> expenses = new ArrayList<>();
 
-    int lastSep = line.indexOf(SEP);
-    String nameOfTrip = line.substring(0, lastSep);
-    line = line.substring(lastSep + 1);
-
-    for(lastSep = line.indexOf(SEP); lastSep < line.length(); ++lastSep){
-      Expense expense = parseExpenses();
-      expenses.add(expense);
+    for(int i = 0; lineForList.length() > 0; ++i){
+      int lastSep = lineForList.indexOf(SEP); // находим разделитель
+      String lineForeExp = lineForList.substring(0, lastSep); //вырезаем кусок, кот отправим на конструктор
+      Expense expense = parseExpenses(lineForeExp);  // преобразуем кусок строки в констуктор
+      expenses.add(expense); // добавляем конструктор
+      lineForList = lineForList.substring(lastSep + 1); // вырезаем обработаный кусок сначала строки
     }
 
-    oneTrip.put(nameOfTrip, expenses);
-
-    return oneTrip;
+    return expenses;
   }
 
-  private static Expense  parseExpenses(){
+  // кусок строки преобразуем в конструктор
+  private static Expense  parseExpenses(String lineForeExp){
+    char sep = ';';
+    int firstSep = lineForeExp.indexOf(sep);
+    int secondSep = lineForeExp.indexOf(sep, firstSep + 1);
 
-    return null;
+    String name = lineForeExp.substring(0, firstSep);
+    double cost = Double.parseDouble(lineForeExp.substring(firstSep + 1, secondSep));
+    String currency = lineForeExp.substring(secondSep + 1);
+    Expense expense = new Expense(name, cost, currency);
+    return expense;
   }
 
 }
