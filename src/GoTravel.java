@@ -14,12 +14,10 @@ public class GoTravel {
     int choice = readChoice();
     switch (choice) {
       case 1 -> TripCreator.addTrip();
-      case 2 -> Trips.lookTrip();
-      case 3 -> Trips.editTrip();
-      case 4 -> Trips.deleteTrip();
-      case 5 -> Trips.compareTrip();
-      case 6 -> aboutApp();
-      case 7 -> bye();
+      case 2 -> Trip.printTrip();
+      case 3 -> Trip.editTrip();
+      case 4 -> aboutApp();
+      case 5 -> bye();
     }
 
 
@@ -28,11 +26,9 @@ public class GoTravel {
 
   private static List<String> menu() {
     List<String> menu = new ArrayList<>();
-    menu.add("Добавить поездку"); //1
-    menu.add("Посмотреть поездки");  //2
+    menu.add("Создать поездку"); //1
+    menu.add("Посмотреть поездку");  //2
     menu.add("Внести изминения в поездку");
-    menu.add("Удалить поездку");
-    menu.add("Сравнить поездки");
     menu.add("О програме");
     menu.add("Выйти из программы"); //7
     return menu;
@@ -51,7 +47,11 @@ public class GoTravel {
       readedChoice = Integer.parseInt(br.readLine());
     } catch (IllegalArgumentException e){
       System.out.println("Не правильный ввод: \"" + e + "\"");
-      menu();
+      runMenu();
+    }
+    if(readedChoice > 5){
+      System.out.println("Введите от 1 до 5");
+      runMenu();
     }
     System.out.println();
     return readedChoice;
@@ -62,9 +62,6 @@ public class GoTravel {
                         >> TRAVEL COST <<
         Эта программа была создана человеком, который обожает путишествовать.
         Cозданна для быстрого расчёта поездки и для оптимизации Ваших расходов.
-        
-        Это приложение поможет Вам сделать оптимальный выбор
-                  между несколькими вариантами.
         """);
     runMenu();
   }
