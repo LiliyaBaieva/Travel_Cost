@@ -29,7 +29,8 @@ public class Expense {
 
   @Override
   public String toString() {
-    return getName() + " = " +  getCost() + " (" + getCurrency() + ")";
+//    getName() + " = " +  getCost() + " (" + getCurrency() + ")";
+    return String.format(" %s = %.2f (5s)", getName(), getCost(), getCurrency());
   }
 
 
