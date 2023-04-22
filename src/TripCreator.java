@@ -39,8 +39,7 @@ public class TripCreator {
     String allExpenses = "/";
     for (Expense expense : trip) {
       String name = expense.getName();
-      double cost = 0.00;
-      cost = expense.getCost();
+      double cost = expense.getCost();
       String currency = expense.getCurrency();
       String writeExpense = String.format("%s;%.2f;%s", name, cost, currency);
       allExpenses = allExpenses + writeExpense + SEP;
@@ -115,7 +114,7 @@ public class TripCreator {
   }
 
   // КАЛЬКУЛЯТОРЫ
-  private static double appartCalc() throws IOException{
+  public static double appartCalc() throws IOException{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     double cost = 0.00;
     System.out.println("Вам известна стоимость проживания в сутки за 1 человека?");
@@ -164,7 +163,7 @@ public class TripCreator {
     return cost;
   }
 
-  private static double localTransportCalc() throws IOException{
+  public static double localTransportCalc() throws IOException{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     System.out.println("Введите сумму дневного проезда на городскром транспорте на одного человека: ");
     double cost = 0.00;
@@ -177,7 +176,7 @@ public class TripCreator {
     return cost;
   }
 
-  private static double foodCalc() throws  IOException{
+  public static double foodCalc() throws  IOException{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int answer;
     do{
@@ -225,7 +224,7 @@ public class TripCreator {
     return cost;
   }
 
-  private static double excursionCalc() throws IOException{
+  public static double excursionCalc() throws IOException{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     double costOne = 0.00;
     double cost = 0.00;
@@ -244,7 +243,7 @@ public class TripCreator {
     return cost;
   }
 
-  private static double entertainmentCalk() throws IOException{
+  public static double entertainmentCalk() throws IOException{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     System.out.println("Какую сумму вы планируете портатить на развлечения и долнительные покупки: ");
     double cost = Double.parseDouble(br.readLine());
@@ -262,10 +261,10 @@ public class TripCreator {
     }while (distance < 0);
 
     System.out.println("Какой расход топлива ващего автомобиля");
-    double fuelСonsumption = 0.00;
+    double fuelConsumption = 0.00;
     do{
-      fuelСonsumption = Double.parseDouble(br.readLine());
-    }while (fuelСonsumption < 0);
+      fuelConsumption = Double.parseDouble(br.readLine());
+    }while (fuelConsumption < 0);
 
     System.out.println("Средняя стоимость 1 литра топлива: ");
     double fuelCost = 0.0;
@@ -282,10 +281,12 @@ public class TripCreator {
         autobahn = Double.parseDouble(br.readLine());
       }while (autobahn < 0);
     }
-    double cost = ((fuelСonsumption / 100 * fuelCost) * distance * 2 + autobahn) / numberPeople;
+    double cost = ((fuelConsumption / 100 * fuelCost) * distance * 2 + autobahn) / numberPeople;
 
     return cost;
   }
+
+
 
 
 
