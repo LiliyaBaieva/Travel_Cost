@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,13 +45,58 @@ public class Trip {
   }
 
   // TODO
-  public static void editTrip(){
-    //  1. Какую трип хотим отредактировать
-    //  2. Какую строчку из списка (листа)
-    //  3. изменить / удалить (изменить можем только деньги)
-    //  4. через свитч-кейс вызывает соответсвующую статье расходов функцию
+  public static void editTrip() throws IOException{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    System.out.println("Выберите статью расходов, которую Вы хотите отредактировать : ");
+    System.out.println("_______________________________________________________________");
+    List<Expense> tripList = parseTripList();
+    for(int i = 0; i < tripList.size() -1; ++i){
+      System.out.printf("[%d] %s\n", i + 1, tripList.get(i).getName());
+    }
+    System.out.println();
+    System.out.println("Сделайте Ваш выбор: ");
+
+//    System.out.printf("Вы хотите в \"%s\" изменить - %.f ",tripList.get(choiseForEdit() -1).getName() ,tripList.get(choiseForEdit() -1).getCost() );
+    int choise = choiseForEdit();
+    double newCost = costCalc(choise);
+    tripList.get(choise -1).setCost(newCost);
+
+   System.out.println("Результат Ваших изминений");
+   System.out.println("_________________________");
+   printTrip();
+
+   // TODO перезапистаь в файл
+
   }
 
+  public static int choiseForEdit() throws IOException{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    int choise = 0;
+    try{
+      do {
+        choise = Integer.parseInt(br.readLine());
+      } while (!(choise > 0 && choise <= 6));
+//      choise = Integer.parseInt(br.readLine());
+    } catch (NumberFormatException e){
+      System.out.println("Не правильный ввод.");
+      editTrip();
+    }
+    return choise;
+  }
+
+  public static double costCalc (int choise) throws IOException {
+    double cost = 0.00;
+//    int choise = choiseForEdit();
+    switch (choise){
+      case 1 -> cost = TripCreator.appartCalc();
+      case 2 -> cost = TripCreator.transferCalc();
+      case 3 -> cost = TripCreator.localTransportCalc();
+      case 4 -> cost = TripCreator.foodCalc();
+      case 5 -> cost = TripCreator.excursionCalc();
+      case 6 -> cost = TripCreator.entertainmentCalk();
+    }
+    return cost;
+  }
 
   private static String getTripName() throws IOException{
     File tripsFile = new File("res/Trips.txt");

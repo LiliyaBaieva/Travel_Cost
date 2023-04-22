@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class Expense {
 
   private String name;
@@ -32,6 +34,4 @@ public class Expense {
 //    getName() + " = " +  getCost() + " (" + getCurrency() + ")";
     return String.format(" %s = %.2f (5s)", getName(), getCost(), getCurrency());
   }
-
-
 }
