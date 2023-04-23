@@ -6,11 +6,9 @@ import java.util.List;
 
 public class GoTravel {
   public static void runMenu() throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    for(int i = 0; i < menu().size(); ++i){
-      System.out.println("[" + (i + 1) + "]" + menu().get(i));
-    }
+    for(int i = 0; i < menu().size(); ++i)
+      System.out.println("[" + (i + 1) + "] " + menu().get(i));
     int choice = readChoice();
     switch (choice) {
       case 1 -> TripCreator.addTrip();

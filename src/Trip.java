@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -33,8 +34,8 @@ public class Trip {
         System.out.printf("                               на компанию   = %.2f (%s)\n",cosAllpeople, currency);
 
       } else {
-        System.out.println("_____________________________________________________________");
-        System.out.printf("[ %d ] %s \n", i + 1,  expense);
+//        System.out.println("_____________________________________________________________");
+        System.out.printf("[%d] %s \n", i + 1,  expense);
       }
     }
 
@@ -44,9 +45,10 @@ public class Trip {
     GoTravel.runMenu();
   }
 
-  // TODO
   public static void editTrip() throws IOException{
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String nameOfTrip = getTripName();
+    int numberPeople = TripCreator.numberPeople;
+
     System.out.println("Выберите статью расходов, которую Вы хотите отредактировать : ");
     System.out.println("_______________________________________________________________");
     List<Expense> tripList = parseTripList();
@@ -56,38 +58,50 @@ public class Trip {
     System.out.println();
     System.out.println("Сделайте Ваш выбор: ");
 
-//    System.out.printf("Вы хотите в \"%s\" изменить - %.f ",tripList.get(choiseForEdit() -1).getName() ,tripList.get(choiseForEdit() -1).getCost() );
-    int choise = choiseForEdit();
-    double newCost = costCalc(choise);
-    tripList.get(choise -1).setCost(newCost);
+    int choice = choiceForEdit();
+      double newCost = costCalc(choice);
+      tripList.get(choice -1).setCost(newCost);
 
-   System.out.println("Результат Ваших изминений");
-   System.out.println("_________________________");
-   printTrip();
+    File trips = new File("res/trips.txt");
 
-   // TODO перезапистаь в файл
+    FileWriter fileWriter = new FileWriter("res/trips.txt");
+    if (!trips.exists()) {
+      System.out.println("Сначала создайте поездку.");
+      GoTravel.runMenu();
+    }
 
+    String allExpenses = "/";
+    for (Expense expense : tripList) {
+      String name = expense.getName();
+      double cost = expense.getCost();
+      String currency = expense.getCurrency();
+      String writeExpense = String.format("%s;%.2f;%s", name, cost, currency);
+      allExpenses = allExpenses + writeExpense + SEP;
+    }
+    String total = String.format(nameOfTrip + ";" + numberPeople + allExpenses + "\n");
+    fileWriter.write(String.valueOf(total));
+    fileWriter.close();
+
+    GoTravel.runMenu();
   }
 
-  public static int choiseForEdit() throws IOException{
+  public static int choiceForEdit() throws IOException{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    int choise = 0;
+    int choice = 0;
     try{
       do {
-        choise = Integer.parseInt(br.readLine());
-      } while (!(choise > 0 && choise <= 6));
-//      choise = Integer.parseInt(br.readLine());
+        choice = Integer.parseInt(br.readLine());
+      } while (!(choice > 0 && choice <= 6));
     } catch (NumberFormatException e){
       System.out.println("Не правильный ввод.");
       editTrip();
     }
-    return choise;
+    return choice;
   }
 
-  public static double costCalc (int choise) throws IOException {
+  public static double costCalc (int choice) throws IOException {
     double cost = 0.00;
-//    int choise = choiseForEdit();
-    switch (choise){
+    switch (choice){
       case 1 -> cost = TripCreator.appartCalc();
       case 2 -> cost = TripCreator.transferCalc();
       case 3 -> cost = TripCreator.localTransportCalc();
@@ -108,8 +122,7 @@ public class Trip {
 
     String line = br.readLine();
     int sep = line.indexOf(";");
-    String name = line.substring(0, sep);
-    return name;
+    return line.substring(0, sep);
   }
 
   private static int getNumberOfPeople() throws IOException{
@@ -123,8 +136,7 @@ public class Trip {
     String line = br.readLine();
     int sepLeft = line.indexOf(";");
     int sepRight = line.indexOf(SEP);
-    int NumberOfPeople = Integer.parseInt(line.substring(sepLeft + 1, sepRight));
-    return NumberOfPeople;
+    return Integer.parseInt(line.substring(sepLeft + 1, sepRight));
   }
 
   public static List<Expense> parseTripList() throws IOException {
@@ -160,7 +172,7 @@ public class Trip {
     String name = lineForeExp.substring(0, firstSep);
 
     String costString = lineForeExp.substring(firstSep + 1, secondSep);
-    double cost = 0.00;
+    double cost;
     if(costString.contains(",")){
       String newcostToString = costString.replace(',', '.');
       cost = Double.parseDouble(newcostToString);
@@ -169,8 +181,7 @@ public class Trip {
     }
 
     String currency = lineForeExp.substring(secondSep + 1);
-    Expense expense = new Expense(name, cost, currency);
-    return expense;
+    return new Expense(name, cost, currency);
   }
 
 }
