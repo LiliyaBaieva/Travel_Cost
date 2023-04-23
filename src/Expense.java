@@ -1,11 +1,8 @@
-import java.io.IOException;
-
 public class Expense {
 
-  private String name;
+  private final String name;
   private double cost;
-  private String currency;
-  public final static char SEP = ';';
+  private final String currency;
 
   public Expense(String name, double cost, String currency){
     this.name = name;
@@ -32,6 +29,6 @@ public class Expense {
   @Override
   public String toString() {
 //    getName() + " = " +  getCost() + " (" + getCurrency() + ")";
-    return String.format(" %s = %.2f (5s)", getName(), getCost(), getCurrency());
+    return String.format(" %s = %.2f (%s)", getName(), getCost(), getCurrency());
   }
 }
