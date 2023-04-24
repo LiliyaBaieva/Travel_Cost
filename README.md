@@ -35,4 +35,4 @@
 
 ## Блок-схема проекта
 
-![Архитектура программы](/../Travel_Cost/images/TripDiagramm.svg)
+![Архитектура программы](/../main/Travel_Cost/images/TripDiagramm.svg)
