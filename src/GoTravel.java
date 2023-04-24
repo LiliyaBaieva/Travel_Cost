@@ -5,19 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GoTravel {
+
   public static void runMenu() throws IOException {
 
-    for(int i = 0; i < menu().size(); ++i)
+    for (int i = 0; i < menu().size(); ++i) {
       System.out.println("[" + (i + 1) + "] " + menu().get(i));
+    }
     int choice = readChoice();
     switch (choice) {
       case 1 -> TripCreator.addTrip();
       case 2 -> Trip.printTrip();
       case 3 -> Trip.editTrip();
       case 4 -> aboutApp();
-      case 5 -> bye();
+      case 5 -> exit();
     }
-
 
 
   }
@@ -33,7 +34,7 @@ public class GoTravel {
   }
 
 
-  private static int readChoice() throws IOException{
+  private static int readChoice() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     //  Считываем выбор меню от пользователя
@@ -41,13 +42,13 @@ public class GoTravel {
     System.out.println("-----------------------------");
     System.out.print("    Сделайте Ваш выбор: ");
     int readedChoice = 0;
-    try{
+    try {
       readedChoice = Integer.parseInt(br.readLine());
-    } catch (IllegalArgumentException e){
+    } catch (IllegalArgumentException e) {
       System.out.println("Не правильный ввод: \"" + e + "\"");
       runMenu();
     }
-    if(readedChoice > 5){
+    if (readedChoice > 5) {
       System.out.println("Введите от 1 до 5");
       runMenu();
     }
@@ -55,7 +56,7 @@ public class GoTravel {
     return readedChoice;
   }
 
-  private static void aboutApp() throws IOException{
+  private static void aboutApp() throws IOException {
     System.out.println("""
                         >> TRAVEL COST <<
         Эта программа была создана человеком, который обожает путишествовать.
@@ -63,11 +64,12 @@ public class GoTravel {
         """);
     runMenu();
   }
-  private static void bye(){
+
+  private static void exit() {
     System.out.println("""
-             Желаем хорошего путишествия!
-                      Досвидания!
-          """);
+           Желаем хорошего путишествия!
+                    Досвидания!
+        """);
   }
 
 

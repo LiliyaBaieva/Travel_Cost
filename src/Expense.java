@@ -4,7 +4,7 @@ public class Expense {
   private double cost;
   private final String currency;
 
-  public Expense(String name, double cost, String currency){
+  public Expense(String name, double cost, String currency) {
     this.name = name;
     this.cost = cost;
     this.currency = currency;

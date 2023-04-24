@@ -7,17 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TripCreator {
+
   public final static char SEP = '/';
   public static String currency;
   public static int days;
   public static int numberPeople;
   public static String nameOfTrip;
 
-  public static void addTrip () throws IOException{
+  public static void addTrip() throws IOException {
     File trips = new File("res/trips.txt");
     FileWriter fileWriter = new FileWriter("res/trips.txt");
-    if(!trips.exists()){
-     trips.createNewFile();
+    if (!trips.exists()) {
+      trips.createNewFile();
     }
 
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,13 +26,13 @@ public class TripCreator {
     nameOfTrip = br.readLine();
 
     System.out.println("Сколько дней Вы планируете отдыхать: ");
-    do{
+    do {
       days = Integer.parseInt(br.readLine());
     } while (days <= 0);
     System.out.println("Сколько Вас будет человек: ");
-    do{
+    do {
       numberPeople = Integer.parseInt(br.readLine());
-    }while(numberPeople <= 0);
+    } while (numberPeople <= 0);
     System.out.print("Введите валюту, в которой будет производится расчёт: ");
     currency = br.readLine().toUpperCase();
 
@@ -61,7 +62,7 @@ public class TripCreator {
     double localTransportCost = 0.00;
     System.out.println("Планируете ли Вы пользоваться местным транспортом?");
     boolean answer = readYesNo();
-    if(answer){
+    if (answer) {
       localTransportCost = localTransportCalc();
     }
 
@@ -70,7 +71,7 @@ public class TripCreator {
     System.out.println("Планируете ли дополнительные затраты на развлечения?");
     boolean answer2 = readYesNo();
     double entertainmentCost = 0.00;
-    if(answer2){
+    if (answer2) {
       entertainmentCost = entertainmentCalk();
     }
     double sum = appartCost + transferCost + localTransportCost +
@@ -86,13 +87,13 @@ public class TripCreator {
         localTransportCost, currency);
     tripList.add(LocalTransport);
 
-    Expense food  = new Expense("Питание", foodCost, currency);
+    Expense food = new Expense("Питание", foodCost, currency);
     tripList.add(food);
 
-    Expense excursion  = new Expense("Экскурсии", excursionCost, currency);
+    Expense excursion = new Expense("Экскурсии", excursionCost, currency);
     tripList.add(excursion);
 
-    Expense entertainment  = new Expense("Развлечения", entertainmentCost, currency);
+    Expense entertainment = new Expense("Развлечения", entertainmentCost, currency);
     tripList.add(entertainment);
 
     Expense summary = new Expense("Итого: ", sum, currency);
@@ -101,11 +102,11 @@ public class TripCreator {
     return tripList;
   }
 
-  private  static boolean readYesNo() throws IOException{
+  private static boolean readYesNo() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     System.out.println("[y] - да\n[n] - нет");
     String answerLine = br.readLine();
-    if(answerLine.equalsIgnoreCase("n")){
+    if (answerLine.equalsIgnoreCase("n")) {
       return false;
     } else if (!answerLine.equalsIgnoreCase("y")) {
       System.out.println("Не правильный ввод ответа.");
@@ -115,47 +116,47 @@ public class TripCreator {
   }
 
   // КАЛЬКУЛЯТОРЫ
-  public static double appartCalc() throws IOException{
+  public static double appartCalc() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     double cost;
     System.out.println("Вам известна стоимость проживания в сутки за 1 человека?");
     boolean answer = readYesNo();
-    if(answer){
+    if (answer) {
       System.out.println("Введите стоимость проживания в сутки за 1 человека?");
       double oneDay = 0.00;
       try {
         oneDay = Double.parseDouble(br.readLine());
-      } catch (NumberFormatException e){
+      } catch (NumberFormatException e) {
         System.out.println("Не правильный формат ввода.");
         appartCalc();
       }
 
       cost = oneDay * days;
-    } else{
+    } else {
       System.out.print("Введите стоимость жилья в сутки: ");
       cost = Double.parseDouble(br.readLine()) / numberPeople * days;
     }
     return cost;
   }
 
-  public static double transferCalc() throws IOException{
+  public static double transferCalc() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     double cost = 0.00;
     System.out.println("Вы будете ехать машиной?");
     boolean answer = readYesNo();
-    if(answer){
-      if (numberPeople <= 5){
+    if (answer) {
+      if (numberPeople <= 5) {
         cost = goByCar();
       } else {
         System.out.println("Колоичеством больше 5 человек нельзя перемещаться на автомобиле.");
       }
-    } else{
+    } else {
       System.out.println("Введите стоимость билета в одну сторону: ");
       double ticket = 0.00;
-      try{
+      try {
         ticket = Double.parseDouble(br.readLine());
         return ticket;
-      }catch(NumberFormatException e){
+      } catch (NumberFormatException e) {
         System.out.println("Не правильный формат ввода.");
         transferCalc();
       }
@@ -164,43 +165,45 @@ public class TripCreator {
     return cost;
   }
 
-  public static double localTransportCalc() throws IOException{
+  public static double localTransportCalc() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    System.out.println("Введите сумму дневного проезда на городскром транспорте на одного человека: ");
+    System.out.println(
+        "Введите сумму дневного проезда на городскром транспорте на одного человека: ");
     double cost = 0.00;
-    try{
+    try {
       double busTicket = Double.parseDouble(br.readLine());
-      System.out.println("Какое количество дней Вы планируете пользовать общественным транспортом?");
+      System.out.println(
+          "Какое количество дней Вы планируете пользовать общественным транспортом?");
       int busDays = Integer.parseInt(br.readLine());
-      cost =  busTicket * busDays;
-    } catch (NumberFormatException e){
+      cost = busTicket * busDays;
+    } catch (NumberFormatException e) {
       System.out.println("Не правильный формат ввода.");
       localTransportCalc();
     }
     return cost;
   }
 
-  public static double foodCalc() throws  IOException{
+  public static double foodCalc() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int answer;
-    do{
+    do {
       System.out.println("""
-      Выберите вариант питания на отдыхе:
-      [1] - питаться в кафе и ресторанах
-      [2] - готовим сами
-      [3] - смешаное питание
-      """);
-      answer  = Integer.parseInt(br.readLine());
-    }while (!(answer == 1 || answer == 2 || answer == 3));
+          Выберите вариант питания на отдыхе:
+          [1] - питаться в кафе и ресторанах
+          [2] - готовим сами
+          [3] - смешаное питание
+          """);
+      answer = Integer.parseInt(br.readLine());
+    } while (!(answer == 1 || answer == 2 || answer == 3));
     return foodCalc2(answer);
   }
 
-  private static double foodCalc2(int answer) throws IOException{
+  private static double foodCalc2(int answer) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     double cost = 0.00;
-    try{
-      switch (answer){
-        case 1-> {
+    try {
+      switch (answer) {
+        case 1 -> {
           System.out.println("Введите среднюю стоимость обеда: ");
           cost = Double.parseDouble(br.readLine()) * 3 * days;
         }
@@ -214,88 +217,78 @@ public class TripCreator {
           double dinnerCost = Double.parseDouble(br.readLine());
           System.out.println("Какая стоимость недельной закупки еды (на 1 чел): ");
           double shopFood = Double.parseDouble(br.readLine());
-          cost = ((dinnerCost * 3) + (shopFood / 7) * 1.1)/2 * days;
+          cost = ((dinnerCost * 3) + (shopFood / 7) * 1.1) / 2 * days;
         }
       }
-    } catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
       System.out.println("Не правильный формат ввода.");
       foodCalc2(answer);
-    } catch (NegativeArraySizeException e){
+    } catch (NegativeArraySizeException e) {
       System.out.println("Сумма денег не может быть отрицательна.");
       foodCalc2(answer);
     }
     return cost;
   }
 
-  public static double excursionCalc() throws IOException{
+  public static double excursionCalc() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     double costOne;
     double cost = 0.00;
-    try{
+    try {
       System.out.println("Введите среднюю стоимость экскурсии на одного человека: ");
       costOne = Double.parseDouble(br.readLine());
       System.out.println("Введите количество экскурсий: ");
       cost = Double.parseDouble(br.readLine()) * costOne;
-    } catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
       System.out.println("Не правильный формат ввода");
       excursionCalc();
-    } catch (NegativeArraySizeException e){
+    } catch (NegativeArraySizeException e) {
       System.out.println("Стоимость не может быть отрицательной");
       excursionCalc();
     }
     return cost;
   }
 
-  public static double entertainmentCalk() throws IOException{
+  public static double entertainmentCalk() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    System.out.println("Какую сумму вы планируете портатить на развлечения и долнительные покупки: ");
+    System.out.println(
+        "Какую сумму вы планируете портатить на развлечения и долнительные покупки: ");
     return Double.parseDouble(br.readLine());
   }
 
 
-  private static double goByCar() throws IOException {
+  public static double goByCar() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     System.out.println("Сколько км в одну сторону: ");
     double distance;
-    do{
+    do {
       distance = Double.parseDouble(br.readLine());
-    }while (distance < 0);
+    } while (distance < 0);
 
     System.out.println("Какой расход топлива ващего автомобиля");
     double fuelConsumption;
-    do{
+    do {
       fuelConsumption = Double.parseDouble(br.readLine());
-    }while (fuelConsumption < 0);
+    } while (fuelConsumption < 0);
 
     System.out.println("Средняя стоимость 1 литра топлива: ");
     double fuelCost;
-    do{
+    do {
       fuelCost = Double.parseDouble(br.readLine());
-    }while (fuelCost < 0);
+    } while (fuelCost < 0);
 
     System.out.println("Будут ли на маршруте платные дороги?");
     double autobahn = 0.00;
     boolean answer = readYesNo();
-    if(answer){
+    if (answer) {
       System.out.println("Введите полную стомость проезда по автобану в обе стороны.");
-      do{
+      do {
         autobahn = Double.parseDouble(br.readLine());
-      }while (autobahn < 0);
+      } while (autobahn < 0);
     }
     return ((fuelConsumption / 100 * fuelCost) * distance * 2 + autobahn) / numberPeople;
   }
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
